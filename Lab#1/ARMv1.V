@@ -1,11 +1,10 @@
 module ARMv1(
     input clk, rst
 );
-wire freeze_IF, freeze_IF_Reg, Branch_taken, flush;
+wire freeze, Branch_taken, flush;
 wire [31:0] BranchAddr, PC_IF, PC_IF_Out, Instruction, Instruction_Out;
 wire [31:0] PC_ID, PC_ID_Out, PC_EXE, PC_EXE_Out, PC_MEM, PC_MEM_Out, PC;
 
-// Consider that I made a simple mistake and freezes are not setted well
 IF_Stage if_stage(clk, rst, freeze, Branch_taken, BranchAddr, PC_IF, Instruction);
 IF_Stage_Reg if_stage_reg(clk, rst, freeze, flush, Instruction, PC_IF, PC_IF_Out, Instruction_Out);
 ID_Stage id_stage(clk, rst, PC_IF_Out, PC_ID);
