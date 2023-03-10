@@ -21,7 +21,7 @@ reg c, n, v, z;
             4'b1011 : LT is_valid <= (n & ~v) | (~n & v);
             4'b1100 : GT is_valid <= ~z & ((n & v) | (~n & ~v));
             4'b1010 : GE is_valid <= z | (n & ~v) | (~n & v);
-            default: is_valid <= 0;
+            default: is_valid <= 1'b1;
         endcase
     end
 endmodule

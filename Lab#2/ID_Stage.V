@@ -16,6 +16,7 @@ module ID_Stage(
 );
 
 wire[3:0] Rm, Rn;
+wire can_not_pass;
 
 wire[1:0] mode;
 wire[3:0] Op_code;
@@ -40,6 +41,26 @@ assign Dest = Instruction[15:12]; // Dest === Rd
 assign shift_operand = Instruction[11:0];
 assign Rm = Instruction[3:0];
 
+Mux2to1 #(4)
+    mux_src2 (
+        .input_0(Rm),
+        .input_1(Dest),
+        .sel(mem_write_en),
+        .selected_input(src2)
+    );
+
+Register_File register_file(
+    .clk(clk), 
+    .rst(rst),
+    .src1(Rn),
+    .src2(src2),
+    .Dest_wb(Dest_wb),
+    .Result_WB(Result_WB),
+    .writeBackEn(writeBackEn),
+    .reg1(val_Rn),
+    reg2(val_Rm)
+);
+
 Control_Unit control_unit(
     .mode(mode),
     .Op_code(Op_code),
@@ -52,71 +73,20 @@ Control_Unit control_unit(
     .exe_cmd(temp_exe_cmd)
 );
 
-module Control_Unit (
-    input [1:0] mode,
-    input [3:0] Op_code,
-    input s_in,
-    output S,
-    output reg mem_read_en, mem_write_en, wb_en, B,
-    output reg [3:0] exe_cmd
-);
-
-Mux2to1 #(4)
-    mux_src2 (
-        .input_0(Rm),
-        .input_1(Dest),
-        .sel()
-    )
-
-Register_File register_file(
-    .clk(clk), 
-    .rst(rst),
-    .src1(Rn),
-    .src2
-)
-
-module Register_File (
-    input clk, rst,
-    input [3:0] src1, src2, Dest_wb,
-    input[31:0] Result_WB,
-    input writeBackEn,
-    output [31:0] reg1, reg2
-);
-
-
-
-Control_Unit control_unit(
-    input [1:0] mode,
-    input [3:0] Op_code,
-    input s_in,
-    output S,
-    output reg mem_read_en, mem_write_en, wb_en, B,
-    output reg [3:0] exe_cmd
-);
-
-
-
 Condition_Check condition_check(
-    input [3:0] Cond, status,
-    output reg is_valid
+    .condition(condition),
+    .status_register(status_register),
+    .is_valid(is_valid)
 );
 
-assign Rd = Instruction_in[15:12];
-assign Rn = Instruction_in[19:16];
-assign s_in = Instruction_in[20];
+assign can_not_pass = ~is_valid;
 
-assign Cond = Instruction_in[31:28];
-assign mode = Instruction_in[27:26];
-assign Op_code = Instruction_in[24:21];
-
-assign Dest_wb = Rd;
-
-assign src1 = Rn;
-assign src2 = ;
-
-
-
-
-
+Mux2to1 #(9)
+    mux_condition (
+        .input_0({temp_S, temp_mem_read_en, temp_mem_write_en, temp_wb_en, temp_B, temp_exe_cmd}),
+        .input_1(9'b0),
+        .sel(can_not_pass),
+        .selected_input({S, mem_read_en, mem_write_en, wb_en, B, exe_cmd})
+    );
 
 endmodule
