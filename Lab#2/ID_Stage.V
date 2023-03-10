@@ -1,24 +1,89 @@
 module ID_Stage(
     input clk, rst,
-    input[31:0] PC_in, Instruction_in,
-    input[3:0] status,
-    output reg [31:0] PC,
-    output S, mem_read_en, mem_write_en, wb_en, B,
-    output [3:0] exe_cmd;
+    input[31:0] Instruction,
+
+    input[31:0] Result_WB,
+    input writeBackEn,
+    input[3:0] Dest_wb,
+
+    input[3:0] status_register,
+
+    output mem_read_en, mem_write_en, wb_en, S, B,
+    output[3:0] exe_cmd,
+    output[31:0] val_Rn, val_Rm,
+    output[11:0] shift_operand,
+    output[3:0] Dest;
 );
-wire [1:0] mode;
-wire [3:0] Op_code;
+
+wire[3:0] Rm, Rn;
+
+wire[1:0] mode;
+wire[3:0] Op_code;
 wire s_in;
+wire temp_mem_read_en, temp_mem_write_en, temp_wb_en, temp_S, temp_B;
+wire[3:0] temp_exe_cmd;
 
-wire writeBackEn;
-wire [3:0] src1, src2, Dest_wb;
-wire [31:0] Result_WB, reg1, reg2;
+wire [3:0] src2;
+wire [31:0] reg1, reg2;
 
-wire [3:0] Cond;
+
+wire [3:0] condition;
 wire is_valid;
 
-wire [3:0] Rd, Rn;
-wire [11:0] shifter_operand;
+
+assign condition = Instruction[31:28];
+assign mode = Instruction[27:26];
+assign Op_code = Instruction[24:21];
+assign s_in = Instruction[20];
+assign Rn = Instruction[19:16];
+assign Dest = Instruction[15:12]; // Dest === Rd
+assign shift_operand = Instruction[11:0];
+assign Rm = Instruction[3:0];
+
+Control_Unit control_unit(
+    .mode(mode),
+    .Op_code(Op_code),
+    .s_in(s_in),
+    .S(temp_S),
+    .mem_read_en(temp_mem_read_en),
+    .mem_write_en(temp_mem_write_en),
+    .wb_en(temp_wb_en),
+    .B(temp_B),
+    .exe_cmd(temp_exe_cmd)
+);
+
+module Control_Unit (
+    input [1:0] mode,
+    input [3:0] Op_code,
+    input s_in,
+    output S,
+    output reg mem_read_en, mem_write_en, wb_en, B,
+    output reg [3:0] exe_cmd
+);
+
+Mux2to1 #(4)
+    mux_src2 (
+        .input_0(Rm),
+        .input_1(Dest),
+        .sel()
+    )
+
+Register_File register_file(
+    .clk(clk), 
+    .rst(rst),
+    .src1(Rn),
+    .src2
+)
+
+module Register_File (
+    input clk, rst,
+    input [3:0] src1, src2, Dest_wb,
+    input[31:0] Result_WB,
+    input writeBackEn,
+    output [31:0] reg1, reg2
+);
+
+
 
 Control_Unit control_unit(
     input [1:0] mode,
@@ -29,13 +94,7 @@ Control_Unit control_unit(
     output reg [3:0] exe_cmd
 );
 
-Register_File register_file(
-    clk, rst,
-    input [3:0] src1, src2, Dest_wb,
-    input[31:0] Result_WB,
-    input writeBackEn,
-    output [31:0] reg1, reg2
-);
+
 
 Condition_Check condition_check(
     input [3:0] Cond, status,

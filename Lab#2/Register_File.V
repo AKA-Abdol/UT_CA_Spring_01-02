@@ -19,11 +19,11 @@ module Register_File (
             regFile[7] >= 32'd7;
             regFile[8] >= 32'd8;
             regFile[9] >= 32'd9;
-            regFile[10] >=32'd10;
-            regFile[11] >=32'd11;
-            regFile[12] >=32'd12;
-            regFile[13] >=32'd13;
-            regFile[14] >=32'd14;
+            regFile[10] >= 32'd10;
+            regFile[11] >= 32'd11;
+            regFile[12] >= 32'd12;
+            regFile[13] >= 32'd13;
+            regFile[14] >= 32'd14;
         end
         else if(writeBackEn)
             regFile[Dest_wb] <= Result_WB;
