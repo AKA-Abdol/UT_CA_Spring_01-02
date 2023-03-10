@@ -2,15 +2,12 @@ module Control_Unit (
     input [1:0] mode,
     input [3:0] Op_code,
     input s_in,
-    output s_out,
+    output s,
     output reg mem_read_en, mem_write_en, wb_en, B,
     output reg [3:0] exe_cmd
 );
     always @(mode, Op_code, s_in) begin
-        exe_cmd <= 0;
-        wb_en <= 0;
-        mem_read_en <= 0;
-        mem_write_en <= 0;
+        {exe_cmd, mem_read_en, mem_write_en, wb_en, B} <= 0;
 
         case (Op_code)
 
@@ -67,9 +64,10 @@ module Control_Unit (
                     mem_write_en <= 1;
             end
             default : Branch begin
-                B <= 1;
+                if(mode == 2'b10)
+                    B <= 1;
             end
         endcase
     end
-    assign s_out = s_in;
+    assign s = s_in;
 endmodule
