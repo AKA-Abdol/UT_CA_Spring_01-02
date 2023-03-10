@@ -7,18 +7,28 @@ module Register_File (
 );
     reg [14:0] regFile [31:0];
 
-    always @(posedge rst) begin 
+    always @(negedge clk, posedge rst) begin 
         if(rst) begin
-            reg1 = 0;
-            reg2 = 0;
+            regFile[0] >= 0;
+            regFile[1] >= 0;
+            regFile[2] >= 0;
+            regFile[3] >= 0;
+            regFile[4] >= 0;
+            regFile[5] >= 0;
+            regFile[6] >= 0;
+            regFile[7] >= 0;
+            regFile[8] >= 0;
+            regFile[9] >= 0;
+            regFile[10] >= 0;
+            regFile[11] >= 0;
+            regFile[12] >= 0;
+            regFile[13] >= 0;
+            regFile[14] >= 0;
         end
-    end
-
-    always @(negedge clk) begin
-        if(writeBackEn)
+        else if(writeBackEn)
             regFile[Dest_wb] <= Result_WB;
     end
-
+    
     assign reg1 = regFile[src1];
     assign reg2 = regFile[src2];
 endmodule

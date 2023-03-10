@@ -5,7 +5,7 @@ module Condition_Check (
 reg Z, C, N, V;
 
     always * begin
-        {z, c, n, v} <= status;
+        {c, n, v, z} <= status;
         case (Cond)
             4'b0000 : EQ is_valid <= z;
             4'b0001 : NE is_valid <= ~z;
