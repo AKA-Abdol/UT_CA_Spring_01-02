@@ -27,10 +27,8 @@ wire[3:0] temp_exe_cmd;
 wire [3:0] src2;
 wire [31:0] reg1, reg2;
 
-
 wire [3:0] condition;
 wire is_valid;
-
 
 assign condition = Instruction[31:28];
 assign mode = Instruction[27:26];
@@ -40,6 +38,18 @@ assign Rn = Instruction[19:16];
 assign dest = Instruction[15:12]; // dest === Rd
 assign shift_operand = Instruction[11:0];
 assign Rm = Instruction[3:0];
+
+Control_Unit control_unit(
+    .mode(mode),
+    .Op_code(Op_code),
+    .s_in(s_in),
+    .S(temp_S),
+    .mem_read_en(temp_mem_read_en),
+    .mem_write_en(temp_mem_write_en),
+    .wb_en(temp_wb_en),
+    .B(temp_B),
+    .exe_cmd(temp_exe_cmd)
+);
 
 Mux2to1 #(4)
     mux_src2 (
@@ -61,17 +71,6 @@ Register_File register_file(
     .reg2(val_Rm)
 );
 
-Control_Unit control_unit(
-    .mode(mode),
-    .Op_code(Op_code),
-    .s_in(s_in),
-    .S(temp_S),
-    .mem_read_en(temp_mem_read_en),
-    .mem_write_en(temp_mem_write_en),
-    .wb_en(temp_wb_en),
-    .B(temp_B),
-    .exe_cmd(temp_exe_cmd)
-);
 
 Condition_Check condition_check(
     .condition(condition),

@@ -22,6 +22,7 @@ assign BranchAddr = 0;
 assign Result_WB = 32'b0;
 assign writeBackEn = 0;
 assign dest_wb = 4'b0;
+assign status_register = 4'b0;
 
 
 IF_Stage if_stage(clk, rst, freeze, Branch_taken, BranchAddr, PC_IF_In, Instruction_IF_In);
