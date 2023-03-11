@@ -1,6 +1,6 @@
 module Register_File (
     input clk, rst,
-    input [3:0] src1, src2, Dest_wb,
+    input [3:0] src1, src2, dest_wb,
     input[31:0] Result_WB,
     input writeBackEn,
     output [31:0] reg1, reg2
@@ -26,7 +26,7 @@ module Register_File (
             regFile[14] >= 32'd14;
         end
         else if(writeBackEn)
-            regFile[Dest_wb] <= Result_WB;
+            regFile[dest_wb] <= Result_WB;
     end
 
     assign reg1 = regFile[src1];

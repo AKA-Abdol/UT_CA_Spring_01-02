@@ -4,7 +4,7 @@ module ID_Stage(
 
     input[31:0] Result_WB,
     input writeBackEn,
-    input[3:0] Dest_wb,
+    input[3:0] dest_wb,
 
     input[3:0] status_register,
 
@@ -12,7 +12,7 @@ module ID_Stage(
     output[3:0] exe_cmd,
     output[31:0] val_Rn, val_Rm,
     output[11:0] shift_operand,
-    output[3:0] Dest;
+    output[3:0] dest;
 );
 
 wire[3:0] Rm, Rn;
@@ -37,14 +37,14 @@ assign mode = Instruction[27:26];
 assign Op_code = Instruction[24:21];
 assign s_in = Instruction[20];
 assign Rn = Instruction[19:16];
-assign Dest = Instruction[15:12]; // Dest === Rd
+assign dest = Instruction[15:12]; // dest === Rd
 assign shift_operand = Instruction[11:0];
 assign Rm = Instruction[3:0];
 
 Mux2to1 #(4)
     mux_src2 (
         .input_0(Rm),
-        .input_1(Dest),
+        .input_1(dest),
         .sel(mem_write_en),
         .selected_input(src2)
     );
@@ -54,7 +54,7 @@ Register_File register_file(
     .rst(rst),
     .src1(Rn),
     .src2(src2),
-    .Dest_wb(Dest_wb),
+    .dest_wb(dest_wb),
     .Result_WB(Result_WB),
     .writeBackEn(writeBackEn),
     .reg1(val_Rn),

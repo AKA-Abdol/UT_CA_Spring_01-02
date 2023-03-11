@@ -7,7 +7,7 @@ module Control_Unit (
     output reg [3:0] exe_cmd
 );
     always @(mode, Op_code, s_in) begin
-        {exe_cmd, mem_read_en, mem_write_en, wb_en, B} <= 0;
+        {exe_cmd, mem_read_en, mem_write_en, wb_en, B} <= 9'b0;
 
         if(mode == 2'b10)
             B <= 1;
