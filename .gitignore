@@ -12,6 +12,7 @@
 *.jpg
 *.html
 *.bsf
+*.mpf
 
 # ignore simulation output of ModelSim
 wlf*
@@ -79,3 +80,4 @@ vsim.dbg
 */db
 */incremental_db
 */output_files
+*/work

@@ -14,51 +14,51 @@ module Control_Unit (
         else begin
             case (Op_code)
 
-                4'b1101 : MOV begin
+                4'b1101 : begin //MOV
                     exe_cmd <= 4'b0001;
                     wb_en <= 1;
                 end
-                4'b1111 : MVN begin
+                4'b1111 : begin //MVN
                     exe_cmd <= 4'b1001;
                     wb_en <= 1;
                 end
-                4'b0100 : ADD begin
+                4'b0100 : begin //ADD
                     exe_cmd <= 4'b0010;
                     wb_en <= 1;
                 end
-                4'b0101 : ADC begin
+                4'b0101 : begin //ADC
                     exe_cmd <= 4'b0011;
                     wb_en <= 1;
                 end
-                4'b0010 : SUB begin
+                4'b0010 : begin //SUB
                     exe_cmd <= 4'b0100;
                     wb_en <= 1;
                 end
-                4'b0110 : SBC begin
+                4'b0110 : begin //SBC
                     exe_cmd <= 4'b0101;
                     wb_en <= 1;
                 end
-                4'b0000 : AND begin
+                4'b0000 : begin //AND
                     exe_cmd <= 4'b0110;
                     wb_en <= 1;
                 end
-                4'b1100 : ORR begin
+                4'b1100 : begin //ORR
                     exe_cmd <= 4'b0111;
                     wb_en <= 1;
                 end
-                4'b0001 : EOR begin
+                4'b0001 : begin //EOR
                     exe_cmd <= 4'b1000;
                     wb_en <= 1;
                 end
-                4'b1010 : CMP begin
+                4'b1010 : begin //CMP
                     exe_cmd <= 4'b0100;
                     wb_en <= 0;
                 end
-                4'b1000 : TST begin
+                4'b1000 : begin //TST
                     exe_cmd <= 4'b0110;
                     wb_en <= 0;
                 end
-                4'b0100 : LDR_STR begin
+                4'b0100 : begin //LDR_STR
                     exe_cmd <= 4'b0010;
                     wb_en <= 0;
                     if(s_in == 1)

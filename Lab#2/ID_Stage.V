@@ -12,7 +12,7 @@ module ID_Stage(
     output[3:0] exe_cmd,
     output[31:0] val_Rn, val_Rm,
     output[11:0] shift_operand,
-    output[3:0] dest;
+    output[3:0] dest
 );
 
 wire[3:0] Rm, Rn;
@@ -58,7 +58,7 @@ Register_File register_file(
     .Result_WB(Result_WB),
     .writeBackEn(writeBackEn),
     .reg1(val_Rn),
-    reg2(val_Rm)
+    .reg2(val_Rm)
 );
 
 Control_Unit control_unit(
