@@ -9,7 +9,7 @@ module ALU (
     wire N, Z, V;
     reg C;
 
-    wire [32:0] res_1,res_2,res_3,res_4,res_5,res_6,res_7,res_8,res_9;
+    wire [32:0] res_1,res_2,res_3,res_4,res_5,res_6,res_7,res_8,res_9; // 1 more bit for carry
     assign res_1 = (val_1 - val_2 - {31'b0, ~c_in});
     assign res_2 = (val_1 + val_2 + c_in);
     assign res_3 = (val_1 + val_2);
