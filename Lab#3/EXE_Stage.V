@@ -36,7 +36,7 @@ module EXE_Stage (
     assign mem_read_en = mem_read_en_in;
     assign mem_write_en = mem_write_en_in;
     assign wb_en = wb_en_in;
-    assign br_addr = PC + (({{8{signed_imm_24[23]}}, signed_imm_24} + 32'd1) >> 2); // edited 
+    assign br_addr = PC + (({{8{signed_imm_24[23]}}, signed_imm_24}) << 2); // final version
     assign control_input = mem_read_en_in | mem_write_en_in;
     assign val_Rm = val_Rm_in;
 

@@ -41,7 +41,7 @@ assign dest = Instruction[15:12]; // dest === Rd
 assign shift_operand = Instruction[11:0];
 assign Rm = Instruction[3:0];
 assign imm = Instruction[25];
-assign signed_imm_24 = {{16{instruction[7]}}, instruction[7:0]};
+assign signed_imm_24 = Instruction[23:0]; //{{16{instruction[7]}}, instruction[7:0]};
 
 Control_Unit control_unit(
     .mode(mode),
