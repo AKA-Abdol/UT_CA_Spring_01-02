@@ -19,7 +19,7 @@ module ID_Stage_Reg(
     output reg[3:0] dest,
     output reg[3:0] status_register_id,
     output reg imm,
-    output reg[23:0] signed_imm_24,
+    output reg[23:0] signed_imm_24
 );
 
 always @(posedge clk, posedge rst) begin 

@@ -12,7 +12,6 @@ always @(posedge clk, posedge rst) begin
             mem_write_en <= 1'b0;
             wb_en <= 1'b0;
             alu_res <= 32'b0;
-            val_rm <= 32'b0;
             val_Rm <= 32'b0;
             //dest <= 4'b0;
         end
@@ -21,7 +20,6 @@ always @(posedge clk, posedge rst) begin
             mem_write_en <= mem_write_en_in;
             wb_en <= wb_en_in;
             alu_res <= alu_res_in;
-            val_rm <= val_rm_in;
             val_Rm <= val_Rm_in;
             //dest <= dest_in; // this should be defined!
         end

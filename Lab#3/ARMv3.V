@@ -98,7 +98,7 @@ EXE_Stage exe_stage(
     status_bits
 );
 
-Status_Register status_register(
+Status_Register status_register_ins(
     clk, rst, S,
     status_bits,
     status_register

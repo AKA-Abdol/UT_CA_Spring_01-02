@@ -14,7 +14,7 @@ module ID_Stage(
     output[11:0] shift_operand,
     output[3:0] dest,
     output imm,
-    output[23:0] signed_imm_24,
+    output[23:0] signed_imm_24
 );
 
 wire[3:0] Rm, Rn;
