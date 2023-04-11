@@ -16,10 +16,14 @@ wire[3:0] dest, dest_in;
 wire [3:0] status_register_id;
 
 wire mem_read_en_exe, mem_write_en_exe, wb_en_exe;
-wire [31:0] alu_res, br_addr, val_Rm_exe;
+wire [31:0] alu_res_exe, br_addr_exe, val_Rm_exe;
 wire [3:0] status_bits;
 
 wire [3:0] status_register;
+
+wire [31:0] alu_res, br_addr, val_Rm_exe_reg;
+wire wb_en_exe_reg, mem_read_en_exe_reg, mem_write_en_exe_reg;
+
 
 
 assign freeze = 0;
@@ -90,7 +94,7 @@ EXE_Stage exe_stage(
     signed_imm_24, // defined
     status_register_id,
     mem_read_en_exe, mem_write_en_exe, wb_en_exe,
-    alu_res, br_addr, val_Rm_exe,
+    alu_res_exe, br_addr_exe, val_Rm_exe,
     status_bits
 );
 
@@ -100,18 +104,12 @@ Status_Register status_register(
     status_register
 );
 
-module EXE_Stage_Reg (
-    input clk, rst,
-    input wb_en_in, mem_read_en_in, mem_write_en_in,
-    input [31:0] alu_res_in, br_addr_in, val_Rm_in,
-    output reg wb_en, mem_read_in, mem_write_en,
-    output reg[31:0] alu_res, br_addr, val_Rm
-);
-
 EXE_Stage_Reg exe_stage_reg(
     clk, rst, 
     wb_en_exe, mem_read_en_exe, mem_write_en_exe,
-    alu_res, 
+    alu_res_exe, br_addr_exe, val_Rm_exe,
+    wb_en_exe_reg, mem_read_en_exe_reg, mem_write_en_exe_reg,
+    alu_res, br_addr, val_Rm_exe_reg
 );
 
 

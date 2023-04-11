@@ -1,7 +1,7 @@
-module ARMv2TB ();
+module ARMv3TB ();
     reg clk = 0, rst = 0;
 
-ARMv2 arm(clk, rst);
+ARMv3 arm(clk, rst);
 
     always #10 clk = ~clk;
     initial begin
