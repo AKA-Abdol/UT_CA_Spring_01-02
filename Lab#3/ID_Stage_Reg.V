@@ -8,6 +8,7 @@ module ID_Stage_Reg(
     input[11:0] shift_operand_in,
     input[3:0] dest_in,
     input[3:0] status_register,
+    input imm_in,
     input[23:0] signed_imm_24_in,
 
     output reg wb_en, mem_read_en, mem_write_en, B, S,
@@ -17,6 +18,7 @@ module ID_Stage_Reg(
     output reg[11:0] shift_operand,
     output reg[3:0] dest,
     output reg[3:0] status_register_id,
+    output reg imm,
     output reg[23:0] signed_imm_24,
 );
 
@@ -29,6 +31,7 @@ always @(posedge clk, posedge rst) begin
         shift_operand <= 12'b0;
         dest <= 4'b0;
         status_register_id <= 4'b0;
+        imm <= 1'b0;
         signed_imm_24 <= 24'b0;
     end
     else begin
@@ -44,6 +47,7 @@ always @(posedge clk, posedge rst) begin
         shift_operand <= shift_operand_in;
         dest <= dest_in;
         status_register_id <= status_register;
+        imm <= imm_in;
         signed_imm_24 <= signed_imm_24_in;
     end
 end

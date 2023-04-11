@@ -36,6 +36,8 @@ IF_Stage if_stage(clk, rst, freeze, Branch_taken, BranchAddr, PC_IF_In, Instruct
 
 IF_Stage_Reg if_stage_reg(clk, rst, freeze, flush, Instruction_IF_In, PC_IF_In, PC_IF, Instruction_IF);
 
+wire imm_id, imm;
+wire [23:0] signed_imm_24_id, signed_imm_24;
 
 ID_Stage id_stage(
     clk, rst,
@@ -49,7 +51,9 @@ ID_Stage id_stage(
     exe_cmd_in,
     val_Rn_in, val_Rm_in,
     shift_operand_in,
-    dest_in
+    dest_in,
+    imm_id,
+    signed_imm_24_id
 );
 
 ID_Stage_Reg id_stage_reg(
@@ -62,6 +66,8 @@ ID_Stage_Reg id_stage_reg(
     shift_operand_in,
     dest_in,
     status_register,
+    imm_id,
+    signed_imm_24_id,
 
     wb_en, mem_read_en, mem_write_en, B, S,
     exe_cmd, 
@@ -69,7 +75,9 @@ ID_Stage_Reg id_stage_reg(
     val_Rn, val_Rm,
     shift_operand,
     dest,
-    status_register_id
+    status_register_id,
+    imm,
+    signed_imm_24
 );
 
 EXE_Stage exe_stage(
@@ -77,9 +85,9 @@ EXE_Stage exe_stage(
     exe_cmd, 
     mem_read_en, mem_write_en, wb_en,
     PC_ID, val_Rn, val_Rm,
-    imm_dummy, //define it
+    imm, // defined
     shift_operand,
-    signed_imm_24_dummy, // def it
+    signed_imm_24, // defined
     status_register_id,
     mem_read_en_exe, mem_write_en_exe, wb_en_exe,
     alu_res, br_addr, val_Rm_exe,

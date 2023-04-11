@@ -13,6 +13,7 @@ module ID_Stage(
     output[31:0] val_Rn, val_Rm,
     output[11:0] shift_operand,
     output[3:0] dest,
+    output imm,
     output[23:0] signed_imm_24,
 );
 
@@ -39,6 +40,7 @@ assign Rn = Instruction[19:16];
 assign dest = Instruction[15:12]; // dest === Rd
 assign shift_operand = Instruction[11:0];
 assign Rm = Instruction[3:0];
+assign imm = Instruction[25];
 assign signed_imm_24 = {{16{instruction[7]}}, instruction[7:0]};
 
 Control_Unit control_unit(
