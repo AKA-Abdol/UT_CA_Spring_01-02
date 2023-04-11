@@ -100,7 +100,19 @@ Status_Register status_register(
     status_register
 );
 
-EXE_Stage_Reg exe_stage_reg(clk, rst, PC_EXE_In, PC_EXE);
+module EXE_Stage_Reg (
+    input clk, rst,
+    input wb_en_in, mem_read_en_in, mem_write_en_in,
+    input [31:0] alu_res_in, br_addr_in, val_Rm_in,
+    output reg wb_en, mem_read_in, mem_write_en,
+    output reg[31:0] alu_res, br_addr, val_Rm
+);
+
+EXE_Stage_Reg exe_stage_reg(
+    clk, rst, 
+    wb_en_exe, mem_read_en_exe, mem_write_en_exe,
+    alu_res, 
+);
 
 
 MEM_Stage mem_stage(clk, rst, PC_EXE, PC_MEM_In);
