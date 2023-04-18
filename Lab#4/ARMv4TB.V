@@ -1,4 +1,4 @@
-module ARMv3TB ();
+module ARMv4TB ();
     reg clk = 0, rst = 0;
 
 ARMv3 arm(clk, rst);
