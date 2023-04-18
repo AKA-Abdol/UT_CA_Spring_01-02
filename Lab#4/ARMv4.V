@@ -12,18 +12,31 @@ wire mem_read_en, mem_write_en, wb_en, S, B, mem_read_en_in, mem_write_en_in, wb
 wire[3:0] exe_cmd, exe_cmd_in;
 wire[31:0] val_Rn, val_Rm, val_Rn_in, val_Rm_in;
 wire[11:0] shift_operand, shift_operand_in;
-wire[3:0] dest, dest_in;
+wire[3:0] dest, dest_id;
 wire [3:0] status_register_id;
 
 wire mem_read_en_exe, mem_write_en_exe, wb_en_exe;
 wire [31:0] alu_res_exe, br_addr_exe, val_Rm_exe;
 wire [3:0] status_bits;
+wire [3:0] dest_exe;
 
 wire [3:0] status_register;
 
 wire [31:0] alu_res, br_addr, val_Rm_exe_reg;
 wire wb_en_exe_reg, mem_read_en_exe_reg, mem_write_en_exe_reg;
+wire [3:0] dest_exe_reg;
 
+wire[31:0] mem_result;
+
+wire[3:0] dest_mem;
+
+wire wb_en_mem_reg, mem_read_en_mem_reg;
+wire [31:0] alu_result_mem_reg, mem_read_value_mem_reg;
+wire [3:0] dest_mem_reg;
+
+wire wb_en_wb;
+wire [31:0] wb_value;
+wire [3:0] dest;
 
 
 assign freeze = 0;
@@ -55,7 +68,7 @@ ID_Stage id_stage(
     exe_cmd_in,
     val_Rn_in, val_Rm_in,
     shift_operand_in,
-    dest_in,
+    dest_id,
     imm_id,
     signed_imm_24_id
 );
@@ -68,7 +81,7 @@ ID_Stage_Reg id_stage_reg(
     PC_IF,
     val_Rn_in, val_Rm_in,
     shift_operand_in,
-    dest_in,
+    dest_id,
     status_register,
     imm_id,
     signed_imm_24_id,
@@ -78,7 +91,7 @@ ID_Stage_Reg id_stage_reg(
     PC_ID,
     val_Rn, val_Rm,
     shift_operand,
-    dest,
+    dest_exe,
     status_register_id,
     imm,
     signed_imm_24
@@ -93,9 +106,12 @@ EXE_Stage exe_stage(
     shift_operand,
     signed_imm_24, // defined
     status_register_id,
+    dest_exe,
+
     mem_read_en_exe, mem_write_en_exe, wb_en_exe,
     alu_res_exe, br_addr_exe, val_Rm_exe,
-    status_bits
+    status_bits,
+    dest_exe_reg
 );
 
 Status_Register status_register_ins(
@@ -108,16 +124,38 @@ EXE_Stage_Reg exe_stage_reg(
     clk, rst, 
     wb_en_exe, mem_read_en_exe, mem_write_en_exe,
     alu_res_exe, br_addr_exe, val_Rm_exe,
+    dest_exe_reg,
+
     wb_en_exe_reg, mem_read_en_exe_reg, mem_write_en_exe_reg,
-    alu_res, br_addr, val_Rm_exe_reg
+    alu_res, br_addr, val_Rm_exe_reg,
+    dest_mem
 );
 
+Memory memory_ins(
+    clk, rst, mem_read_en_exe, mem_write_en_exe,
+    alu_res_exe, val_Rm_exe,
 
-MEM_Stage mem_stage(clk, rst, PC_EXE, PC_MEM_In);
+    mem_result
+);
 
-MEM_Stage_Reg meme_stage_reg(clk, rst, PC_MEM_In, PC_MEM);
+MEM_Stage_Reg mem_stage_reg(
+    clk, rst, wb_en_exe, mem_read_en_exe, 
+    alu_res_exe, mem_result, 
+    dest_mem, 
 
+    wb_en_mem_reg, mem_read_en_mem_reg,
+    alu_result_mem_reg, mem_read_value_mem_reg,
+    dest_mem_reg
+);
 
-WB_Stage wb_stage(clk, rst, PC_MEM, PC);
+WB_Stage wb_stage(
+    mem_read_en_mem_reg, wb_en_mem_reg,
+    alu_result_mem_reg, mem_read_value_mem_reg,
+    dest_mem_reg,
+
+    wb_en_wb,
+    wb_value, 
+    dest
+);
 
 endmodule

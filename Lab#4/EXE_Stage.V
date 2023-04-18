@@ -8,9 +8,12 @@ module EXE_Stage (
     input [11:0] shift_operand,
     input [23:0] signed_imm_24,
     input [3:0] status_register,
+    input [3:0] dest_in, 
+
     output mem_read_en, mem_write_en, wb_en,
     output [31:0] alu_res, br_addr, val_Rm,
-    output [3:0] status_bits
+    output [3:0] status_bits,
+    output [3:0] dest
 );
 
     wire control_input;
@@ -39,5 +42,6 @@ module EXE_Stage (
     assign br_addr = PC + (({{8{signed_imm_24[23]}}, signed_imm_24}) << 2); // final version
     assign control_input = mem_read_en_in | mem_write_en_in;
     assign val_Rm = val_Rm_in;
+    assign dest = dest_in;
 
 endmodule
