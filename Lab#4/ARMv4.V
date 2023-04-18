@@ -12,6 +12,7 @@ wire[31:0] val_Rn, val_Rm, val_Rn_in, val_Rm_in;
 wire[11:0] shift_operand, shift_operand_in;
 wire[3:0] dest_id;
 wire [3:0] status_register_id;
+wire two_src;
 
 wire mem_read_en_exe, mem_write_en_exe, wb_en_exe;
 wire [31:0] alu_res_exe, br_addr_exe, val_Rm_exe;
@@ -36,6 +37,9 @@ wire [3:0] dest_mem_reg;
 wire wb_en_wb;
 wire [31:0] wb_value;
 wire [3:0] dest;
+
+wire hazard;
+wire [3:0] hazard_src1, hazard_src2;
 
 
 assign freeze = 0;
@@ -63,7 +67,7 @@ ID_Stage id_stage(
     dest, 
     status_register, 
 
-    mem_read_en_in, mem_write_en_in, wb_en_in, S_in, B_in,
+    mem_read_en_in, mem_write_en_in, wb_en_in, S_in, B_in, two_src,
     exe_cmd_in,
     val_Rn_in, val_Rm_in,
     shift_operand_in,
@@ -138,13 +142,25 @@ Memory memory_ins(
 );
 
 MEM_Stage_Reg mem_stage_reg(
-    clk, rst, wb_en_exe, mem_read_en_exe, 
-    alu_res_exe, mem_result, 
+    clk, rst, wb_en_exe_reg, mem_read_en_exe_reg, 
+    alu_res, mem_result, 
     dest_mem, 
 
     wb_en_mem_reg, mem_read_en_mem_reg,
     alu_result_mem_reg, mem_read_value_mem_reg,
     dest_mem_reg
+);
+
+input clk, rst,
+    input two_src, exe_wb_en, mem_wb_en,
+    input [3:0] src1, src2, exe_dest, mem_dest,
+    output reg hazard
+
+Hazard_Detection_Unit hazard_detection_unit(
+    clk, rst,
+    two_src, wb_en_exe, wb_en_exe_reg,
+    hazard_src1, hazard_src2, dest_exe, dest_exe_reg,
+    hazard
 );
 
 WB_Stage wb_stage(

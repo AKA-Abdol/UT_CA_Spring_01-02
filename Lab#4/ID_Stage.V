@@ -1,5 +1,5 @@
 module ID_Stage(
-    input clk, rst,
+    input clk, rst, hazard,
     input[31:0] Instruction,
 
     input[31:0] Result_WB,
@@ -8,13 +8,14 @@ module ID_Stage(
 
     input[3:0] status_register,
 
-    output mem_read_en, mem_write_en, wb_en, S, B,
+    output mem_read_en, mem_write_en, wb_en, S, B, two_src
     output[3:0] exe_cmd,
     output[31:0] val_Rn, val_Rm,
     output[11:0] shift_operand,
     output[3:0] dest,
     output imm,
-    output[23:0] signed_imm_24
+    output[23:0] signed_imm_24,
+    output[3:0] hazard_src1, hazard_src2
 );
 
 wire[3:0] Rm, Rn;
@@ -42,6 +43,9 @@ assign shift_operand = Instruction[11:0];
 assign Rm = Instruction[3:0];
 assign imm = Instruction[25];
 assign signed_imm_24 = Instruction[23:0]; //{{16{instruction[7]}}, instruction[7:0]};
+assign two_src = ~imm & temp_mem_write_en;
+assign hazard_src1 = Rn;
+assign hazard_src2 = src2;
 
 Control_Unit control_unit(
     .mode(mode),
@@ -82,7 +86,7 @@ Condition_Check condition_check(
     .is_valid(is_valid)
 );
 
-assign can_not_pass = ~is_valid;
+assign can_not_pass = ~is_valid | hazard;
 
 Mux2to1 #(9)
     mux_condition (
