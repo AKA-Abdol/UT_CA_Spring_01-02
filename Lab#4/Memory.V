@@ -13,7 +13,7 @@ always @(posedge clk, posedge rst) begin
        for(i = 0; i < 64; i = i + 1)
             memory[i] = 32'b0; 
     end
-    else (mem_write) begin
+    else if (mem_write) begin
         memory[(address - 4'd1024) >> 2] <= data;
     end
 end

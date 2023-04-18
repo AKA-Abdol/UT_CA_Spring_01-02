@@ -1,7 +1,7 @@
 module ARMv4TB ();
     reg clk = 0, rst = 0;
 
-ARMv3 arm(clk, rst);
+ARMv4 arm(clk, rst);
 
     always #10 clk = ~clk;
     initial begin

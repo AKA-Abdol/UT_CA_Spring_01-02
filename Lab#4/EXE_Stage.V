@@ -1,6 +1,6 @@
 // consider Dest is wrong and should be define again!  
 module EXE_Stage (
-    input clk,
+    input clk, B, 
     input [3:0] exe_cmd,
     input mem_read_en_in, mem_write_en_in, wb_en_in,
     input [31:0] PC, val_Rn, val_Rm_in, 
@@ -13,7 +13,7 @@ module EXE_Stage (
     output mem_read_en, mem_write_en, wb_en, br_taken,
     output [31:0] alu_res, br_addr, val_Rm,
     output [3:0] status_bits,
-    output [3:0] dest,
+    output [3:0] dest
 );
 
     wire control_input;
@@ -43,5 +43,6 @@ module EXE_Stage (
     assign control_input = mem_read_en_in | mem_write_en_in;
     assign val_Rm = val_Rm_in;
     assign dest = dest_in;
+    assign br_taken = B;
 
 endmodule

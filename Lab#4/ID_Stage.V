@@ -8,7 +8,7 @@ module ID_Stage(
 
     input[3:0] status_register,
 
-    output mem_read_en, mem_write_en, wb_en, S, B, two_src
+    output mem_read_en, mem_write_en, wb_en, S, B, two_src,
     output[3:0] exe_cmd,
     output[31:0] val_Rn, val_Rm,
     output[11:0] shift_operand,

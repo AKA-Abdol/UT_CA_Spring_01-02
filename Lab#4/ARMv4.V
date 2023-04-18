@@ -1,7 +1,7 @@
-module ARMv3(
+module ARMv4(
     input clk, rst
 );
-wire freeze;
+//wire freeze;
 wire[31:0] PC_IF_In, PC_IF, Instruction_IF_In, Instruction_IF;
 wire[31:0] PC_ID, PC_EXE_In, PC_EXE, PC_MEM_In, PC_MEM, PC;
 
@@ -13,6 +13,8 @@ wire[11:0] shift_operand, shift_operand_in;
 wire[3:0] dest_id;
 wire [3:0] status_register_id;
 wire two_src;
+wire imm_id, imm;
+wire [23:0] signed_imm_24_id, signed_imm_24;
 
 wire mem_read_en_exe, mem_write_en_exe, wb_en_exe;
 wire [31:0] alu_res_exe, br_addr_exe, val_Rm_exe;
@@ -42,25 +44,42 @@ wire hazard;
 wire [3:0] hazard_src1, hazard_src2;
 
 
-assign freeze = 0;
+// assign freeze = 0;
 // assign status_register = 4'b0; Defined!
 
 
 IF_Stage if_stage(
-    clk, rst, freeze,
-    br_taken, BranchAddr, PC_IF_In, Instruction_IF_In
+    clk, rst, hazard,
+    br_taken, br_addr_exe, PC_IF_In, Instruction_IF_In
 );
 
 IF_Stage_Reg if_stage_reg(
-    clk, rst, freeze, br_taken,
+    clk, rst, hazard, br_taken,
     Instruction_IF_In, PC_IF_In, PC_IF, Instruction_IF
 );
 
-wire imm_id, imm;
-wire [23:0] signed_imm_24_id, signed_imm_24;
+// module ID_Stage(
+//     input clk, rst, hazard,
+//     input[31:0] Instruction,
+
+//     input[31:0] Result_WB,
+//     input writeBackEn,
+//     input[3:0] dest_wb,
+
+//     input[3:0] status_register,
+
+//     output mem_read_en, mem_write_en, wb_en, S, B, two_src,
+//     output[3:0] exe_cmd,
+//     output[31:0] val_Rn, val_Rm,
+//     output[11:0] shift_operand,
+//     output[3:0] dest,
+//     output imm,
+//     output[23:0] signed_imm_24,
+//     output[3:0] hazard_src1, hazard_src2
+// );
 
 ID_Stage id_stage(
-    clk, rst,
+    clk, rst, hazard,
     Instruction_IF,
     wb_value, 
     wb_en_wb, 
@@ -73,7 +92,8 @@ ID_Stage id_stage(
     shift_operand_in,
     dest_id,
     imm_id,
-    signed_imm_24_id
+    signed_imm_24_id,
+    hazard_src1, hazard_src2
 );
 
 ID_Stage_Reg id_stage_reg(
@@ -101,7 +121,7 @@ ID_Stage_Reg id_stage_reg(
 );
 
 EXE_Stage exe_stage(
-    clk,
+    clk, B,
     exe_cmd, 
     mem_read_en, mem_write_en, wb_en,
     PC_ID, val_Rn, val_Rm,
@@ -150,11 +170,6 @@ MEM_Stage_Reg mem_stage_reg(
     alu_result_mem_reg, mem_read_value_mem_reg,
     dest_mem_reg
 );
-
-input clk, rst,
-    input two_src, exe_wb_en, mem_wb_en,
-    input [3:0] src1, src2, exe_dest, mem_dest,
-    output reg hazard
 
 Hazard_Detection_Unit hazard_detection_unit(
     clk, rst,
