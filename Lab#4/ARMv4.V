@@ -1,24 +1,23 @@
 module ARMv3(
     input clk, rst
 );
-wire freeze, Branch_taken, flush;
-wire[31:0] BranchAddr, PC_IF_In, PC_IF, Instruction_IF_In, Instruction_IF;
+wire freeze;
+wire[31:0] PC_IF_In, PC_IF, Instruction_IF_In, Instruction_IF;
 wire[31:0] PC_ID, PC_EXE_In, PC_EXE, PC_MEM_In, PC_MEM, PC;
 
-wire[31:0] Result_WB;
-wire writeBackEn;
-wire[3:0] dest_wb;
+
 wire mem_read_en, mem_write_en, wb_en, S, B, mem_read_en_in, mem_write_en_in, wb_en_in, S_in, B_in;
 wire[3:0] exe_cmd, exe_cmd_in;
 wire[31:0] val_Rn, val_Rm, val_Rn_in, val_Rm_in;
 wire[11:0] shift_operand, shift_operand_in;
-wire[3:0] dest, dest_id;
+wire[3:0] dest_id;
 wire [3:0] status_register_id;
 
 wire mem_read_en_exe, mem_write_en_exe, wb_en_exe;
 wire [31:0] alu_res_exe, br_addr_exe, val_Rm_exe;
 wire [3:0] status_bits;
 wire [3:0] dest_exe;
+wire br_taken;
 
 wire [3:0] status_register;
 
@@ -40,18 +39,18 @@ wire [3:0] dest;
 
 
 assign freeze = 0;
-assign flush = 0; 
-assign Branch_taken = 0;
-assign BranchAddr = 0;
-assign Result_WB = 32'b0;
-assign writeBackEn = 0;
-assign dest_wb = 4'b0;
 // assign status_register = 4'b0; Defined!
 
 
-IF_Stage if_stage(clk, rst, freeze, Branch_taken, BranchAddr, PC_IF_In, Instruction_IF_In);
+IF_Stage if_stage(
+    clk, rst, freeze,
+    br_taken, BranchAddr, PC_IF_In, Instruction_IF_In
+);
 
-IF_Stage_Reg if_stage_reg(clk, rst, freeze, flush, Instruction_IF_In, PC_IF_In, PC_IF, Instruction_IF);
+IF_Stage_Reg if_stage_reg(
+    clk, rst, freeze, br_taken,
+    Instruction_IF_In, PC_IF_In, PC_IF, Instruction_IF
+);
 
 wire imm_id, imm;
 wire [23:0] signed_imm_24_id, signed_imm_24;
@@ -59,9 +58,9 @@ wire [23:0] signed_imm_24_id, signed_imm_24;
 ID_Stage id_stage(
     clk, rst,
     Instruction_IF,
-    Result_WB, 
-    writeBackEn, 
-    dest_wb, 
+    wb_value, 
+    wb_en_wb, 
+    dest, 
     status_register, 
 
     mem_read_en_in, mem_write_en_in, wb_en_in, S_in, B_in,
@@ -74,7 +73,7 @@ ID_Stage id_stage(
 );
 
 ID_Stage_Reg id_stage_reg(
-    clk, rst, flush,
+    clk, rst, br_taken,
     wb_en_in, mem_read_en_in, mem_write_en_in,
     B_in, S_in,
     exe_cmd_in,
@@ -108,7 +107,7 @@ EXE_Stage exe_stage(
     status_register_id,
     dest_exe,
 
-    mem_read_en_exe, mem_write_en_exe, wb_en_exe,
+    mem_read_en_exe, mem_write_en_exe, wb_en_exe, br_taken,
     alu_res_exe, br_addr_exe, val_Rm_exe,
     status_bits,
     dest_exe_reg

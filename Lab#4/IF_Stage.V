@@ -26,10 +26,17 @@ assign mem[16] = 32'b11100100100000000001000000000000; //STR R1 ,[R0],#0 //MEM[1
 assign mem[17] = 32'b11100100100100001011000000000000; //LDR
 
 always @(posedge clk, posedge rst) begin
-    if(rst)
+    if(rst) begin
         PC <= 0;
-    else
-        PC <= PC + 4;
+    end
+    else if(freeze == 1'b0) begin 
+        if (Branch_taken == 32'b0)
+            PC <= PC + 4;
+        else 
+            PC <= BranchAddr;
+    end
+    else 
+        PC <= PC;
 end
 
 assign Instruction = mem[PC >> 2];

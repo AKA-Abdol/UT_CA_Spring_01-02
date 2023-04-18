@@ -10,10 +10,10 @@ module EXE_Stage (
     input [3:0] status_register,
     input [3:0] dest_in, 
 
-    output mem_read_en, mem_write_en, wb_en,
+    output mem_read_en, mem_write_en, wb_en, br_taken,
     output [31:0] alu_res, br_addr, val_Rm,
     output [3:0] status_bits,
-    output [3:0] dest
+    output [3:0] dest,
 );
 
     wire control_input;
