@@ -43,7 +43,7 @@ assign shift_operand = Instruction[11:0];
 assign Rm = Instruction[3:0];
 assign imm = Instruction[25];
 assign signed_imm_24 = Instruction[23:0]; //{{16{instruction[7]}}, instruction[7:0]};
-assign two_src = ~imm & temp_mem_write_en;
+assign two_src = ~imm | temp_mem_write_en;
 assign hazard_src1 = Rn;
 assign hazard_src2 = src2;
 

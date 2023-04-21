@@ -181,7 +181,7 @@ MEM_Stage_Reg mem_stage_reg(
 Hazard_Detection_Unit hazard_detection_unit(
     clk, rst,
     two_src, wb_en_exe, wb_en_exe_reg,
-    hazard_src1, hazard_src2, dest_exe, dest_exe_reg,
+    hazard_src1, hazard_src2, dest_exe, dest_mem,
     hazard
 );
 
