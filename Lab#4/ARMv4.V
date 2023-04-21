@@ -171,6 +171,13 @@ MEM_Stage_Reg mem_stage_reg(
     dest_mem_reg
 );
 
+// module Hazard_Detection_Unit (
+//     input clk, rst,
+//     input two_src, exe_wb_en, mem_wb_en,
+//     input [3:0] src1, src2, exe_dest, mem_dest,
+//     output reg hazard
+// );
+
 Hazard_Detection_Unit hazard_detection_unit(
     clk, rst,
     two_src, wb_en_exe, wb_en_exe_reg,

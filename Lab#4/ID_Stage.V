@@ -22,7 +22,7 @@ wire[3:0] Rm, Rn;
 wire can_not_pass;
 
 wire[1:0] mode;
-wire[3:0] Op_code;
+wire[3:0] op_code;
 wire s_in;
 wire temp_mem_read_en, temp_mem_write_en, temp_wb_en, temp_S, temp_B;
 wire[3:0] temp_exe_cmd;
@@ -35,7 +35,7 @@ wire is_valid;
 
 assign condition = Instruction[31:28];
 assign mode = Instruction[27:26];
-assign Op_code = Instruction[24:21];
+assign op_code = Instruction[24:21];
 assign s_in = Instruction[20];
 assign Rn = Instruction[19:16];
 assign dest = Instruction[15:12]; // dest === Rd
@@ -49,7 +49,7 @@ assign hazard_src2 = src2;
 
 Control_Unit control_unit(
     .mode(mode),
-    .Op_code(Op_code),
+    .Op_code(op_code),
     .s_in(s_in),
     .S(temp_S),
     .mem_read_en(temp_mem_read_en),

@@ -1,6 +1,6 @@
 module Control_Unit (
     input [1:0] mode,
-    input [3:0] Op_code,
+    input [3:0] op_code,
     input s_in,
     output S,
     output mem_read_en, mem_write_en,
@@ -11,13 +11,13 @@ module Control_Unit (
 assign mem_read_en = (mode == 2'b01 && s_in == 1) ? 1 : 0; //LDR
 assign mem_write_en = (mode == 2'b01 && s_in == 0) ? 1 : 0; //STR 
 
-    always @(mode, Op_code, s_in) begin
+    always @(mode, op_code, s_in) begin
         {exe_cmd, wb_en, B} <= 6'b0;
 
         if(mode == 2'b10)
             B <= 1;
         else begin
-            case (Op_code)
+            case (op_code)
 
                 4'b1101 : begin //MOV
                     exe_cmd <= 4'b0001;

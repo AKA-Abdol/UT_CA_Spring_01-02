@@ -5,7 +5,7 @@ module IF_Stage (
 	output[31:0] Instruction
 );
 
-wire[31:0] mem[0:17];
+wire[31:0] mem[0:46];
 assign mem[0] = 32'b11100011101000000000000000010100; //MOV R0 ,#20 //R0 = 20
 assign mem[1] = 32'b11100011101000000001101000000001; //MOV R1 ,#4096 //R1 = 4096
 assign mem[2] = 32'b11100011101000000010000100000011; //MOV R2 ,#0xC0000000 //R2 = -1073741824
@@ -59,14 +59,15 @@ always @(posedge clk, posedge rst) begin
     if(rst) begin
         PC <= 0;
     end
-    else if(freeze == 1'b0) begin 
-        if (Branch_taken == 32'b0)
-            PC <= PC + 4;
-        else 
-            PC <= BranchAddr;
-    end
-    else 
+    else if(freeze == 1'b1) begin 
         PC <= PC;
+    end
+    else begin
+        if (Branch_taken == 1'b1)
+            PC <= BranchAddr;
+        else 
+            PC <= PC + 4;
+    end
 end
 
 assign Instruction = mem[PC >> 2];

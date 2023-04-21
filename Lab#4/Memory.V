@@ -3,7 +3,7 @@ module Memory (
     input[31:0] address, data, 
     output[31:0] mem_result
 );
-reg[31:0] memory[63:0];
+reg[31:0] memory[0:63];
 integer i; // for initialization
 
 assign mem_result = mem_read ? memory[(address - 4'd1024) >> 2] : 32'b0; // not needed the if
