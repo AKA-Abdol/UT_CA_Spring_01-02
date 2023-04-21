@@ -19,7 +19,7 @@ assign wb_en = (mode == 2'b10) ? 1'b0:
                 (mode == 2'b01 & s_in == 1'b0) ? 1'b0:
                 (mode == 1'b00 & (op_code == 4'b1010 | op_code == 4'b1000)) ? 1'b0 : 1'b1;
 
-assign b = (mode == 2'b10) ? 1'b1 : 1'b0; //branch
+assign B = (mode == 2'b10) ? 1'b1 : 1'b0; //branch
 
 always @(op_code, mode) begin
     if(mode == 2'b00 || mode == 2'b01) begin
