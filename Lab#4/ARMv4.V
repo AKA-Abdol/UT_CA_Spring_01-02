@@ -155,8 +155,8 @@ EXE_Stage_Reg exe_stage_reg(
 );
 
 Memory memory_ins(
-    clk, rst, mem_read_en_exe, mem_write_en_exe,
-    alu_res_exe, val_Rm_exe,
+    clk, rst, mem_read_en_exe_reg, mem_write_en_exe_reg,
+    alu_res, val_Rm_exe_reg,
 
     mem_result
 );
