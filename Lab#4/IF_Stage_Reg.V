@@ -9,6 +9,10 @@ always @(posedge clk, posedge rst) begin
         PC <= 32'b0;
         Instruction <= 32'b0;
     end
+    else if(freeze == 1'b1) begin
+        PC <= PC;
+        Instruction <= Instruction;
+    end
     else begin
         PC <= PC_in;
         Instruction <= Instruction_in;

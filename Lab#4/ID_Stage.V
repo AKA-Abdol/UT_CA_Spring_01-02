@@ -49,7 +49,7 @@ assign hazard_src2 = src2;
 
 Control_Unit control_unit(
     .mode(mode),
-    .Op_code(op_code),
+    .op_code(op_code),
     .s_in(s_in),
     .S(temp_S),
     .mem_read_en(temp_mem_read_en),
