@@ -10,4 +10,4 @@
 
 - First check register_file assignment and then memory assignment
 
-- Need more time to complete the statements for me like 10ps clk (20ps) added about 25000ps fot testbench
+- Need more time to complete the statements for me like 10ps clk (20ps) added about 6000ps fot testbench
