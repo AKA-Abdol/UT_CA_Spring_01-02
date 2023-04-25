@@ -23,7 +23,18 @@ module ID_Stage_Reg(
 );
 
 always @(posedge clk, posedge rst) begin 
-    if(rst || flush) begin
+    if(rst) begin
+        {wb_en, mem_read_en, mem_write_en, B, S, exe_cmd} <= 9'b0;
+        PC <= 32'b0;
+        val_Rn <= 32'b0;
+        val_Rm <= 32'b0;
+        shift_operand <= 12'b0;
+        dest <= 4'b0;
+        status_register_id <= 4'b0;
+        imm <= 1'b0;
+        signed_imm_24 <= 24'b0;
+    end
+    else if (flush) begin
         {wb_en, mem_read_en, mem_write_en, B, S, exe_cmd} <= 9'b0;
         PC <= 32'b0;
         val_Rn <= 32'b0;

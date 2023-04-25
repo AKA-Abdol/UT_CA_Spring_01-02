@@ -5,7 +5,11 @@ module IF_Stage_Reg (
 );
 
 always @(posedge clk, posedge rst) begin
-    if(rst || flush) begin
+    if(rst) begin
+        PC <= 32'b0;
+        Instruction <= 32'b0;
+    end
+    else if (flush) begin
         PC <= 32'b0;
         Instruction <= 32'b0;
     end
