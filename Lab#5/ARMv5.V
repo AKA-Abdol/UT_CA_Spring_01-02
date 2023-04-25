@@ -1,4 +1,4 @@
-module ARMv4(
+module ARMv5(
     input clk, rst
 );
 //wire freeze;
@@ -42,6 +42,9 @@ wire [3:0] dest;
 
 wire hazard;
 wire [3:0] hazard_src1, hazard_src2;
+
+wire [3:0] src1, src2;
+wire [1:0] sel_src1, sel_src2;
 
 
 // assign freeze = 0;
@@ -108,6 +111,7 @@ ID_Stage_Reg id_stage_reg(
     status_register,
     imm_id,
     signed_imm_24_id,
+    hazard_src1, hazard_src2,
 
     wb_en, mem_read_en, mem_write_en, B, S,
     exe_cmd, 
@@ -117,7 +121,8 @@ ID_Stage_Reg id_stage_reg(
     dest_exe,
     status_register_id,
     imm,
-    signed_imm_24
+    signed_imm_24,
+    src1, src2
 );
 
 EXE_Stage exe_stage(
@@ -193,6 +198,14 @@ WB_Stage wb_stage(
     wb_en_wb,
     wb_value, 
     dest
+);
+
+Forwarding_Unit forwarding_unit(
+    clk, rst, 
+    wb_en_mem_reg, wb_en_wb,
+    src1, src2, 
+    dest_mem_reg, dest, 
+    sel_src1, sel_src2
 );
 
 endmodule

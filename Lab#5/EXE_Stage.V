@@ -8,7 +8,9 @@ module EXE_Stage (
     input [11:0] shift_operand,
     input [23:0] signed_imm_24,
     input [3:0] status_register,
-    input [3:0] dest_in, 
+    input [3:0] dest_in,
+    input [1:0] sel_src1, sel_src2,
+    input [31:0] alu_res_mem, wb_value,
 
     output mem_read_en, mem_write_en, wb_en, br_taken,
     output [31:0] alu_res, br_addr, val_Rm,

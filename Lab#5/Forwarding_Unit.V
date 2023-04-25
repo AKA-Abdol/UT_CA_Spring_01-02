@@ -6,7 +6,8 @@ module Forwarding_Unit (
     output reg [1:0] sel_src1, sel_src2
 );
 
-    always @(src1, src2, mem_wb_en, wb_wb_en, mem_dest, wb_dest) begin
+    always @(posedge clk) begin
+    // always @(src1, src2, mem_wb_en, wb_wb_en, mem_dest, wb_dest) begin // I changed this line
         sel_src1 = 2'b00;
         sel_src2 = 2'b00;
         if (mem_wb_en) begin

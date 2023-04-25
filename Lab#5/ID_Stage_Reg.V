@@ -10,6 +10,7 @@ module ID_Stage_Reg(
     input[3:0] status_register,
     input imm_in,
     input[23:0] signed_imm_24_in,
+    input[3:0] src1_in, src2_in,
 
     output reg wb_en, mem_read_en, mem_write_en, B, S,
     output reg[3:0] exe_cmd,
@@ -19,7 +20,8 @@ module ID_Stage_Reg(
     output reg[3:0] dest,
     output reg[3:0] status_register_id,
     output reg imm,
-    output reg[23:0] signed_imm_24
+    output reg[23:0] signed_imm_24,
+    output reg[3:0] src1, src2
 );
 
 always @(posedge clk, posedge rst) begin 
@@ -33,6 +35,8 @@ always @(posedge clk, posedge rst) begin
         status_register_id <= 4'b0;
         imm <= 1'b0;
         signed_imm_24 <= 24'b0;
+        src1 <= 4'b0;
+        src2 <= 4'b0;
     end
     else if (flush) begin
         {wb_en, mem_read_en, mem_write_en, B, S, exe_cmd} <= 9'b0;
@@ -44,6 +48,8 @@ always @(posedge clk, posedge rst) begin
         status_register_id <= 4'b0;
         imm <= 1'b0;
         signed_imm_24 <= 24'b0;
+        src1 <= 4'b0;
+        src2 <= 4'b0;
     end
     else begin
         wb_en <= wb_en_in;
@@ -60,6 +66,9 @@ always @(posedge clk, posedge rst) begin
         status_register_id <= status_register;
         imm <= imm_in;
         signed_imm_24 <= signed_imm_24_in;
+        src1 <= src1_in;
+        src2 <= src2_in;
+
     end
 end
 
