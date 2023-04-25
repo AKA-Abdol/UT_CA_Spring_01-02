@@ -11,3 +11,19 @@
 - First check register_file assignment and then memory assignment
 
 - Need more time to complete the statements for me like 10ps clk (20ps) added about 6000ps fot testbench
+
+- Consider that something like:
+```bash
+if (rst || flush) begin
+    do sth.
+end
+```
+don't do this. just make it like:
+```bash
+if (rst) begin
+    do sth.
+end
+if (flush) begin
+    do sth.
+end
+```
