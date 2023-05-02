@@ -1,4 +1,4 @@
-module Hazard_Detection_Unit2 (
+module Hazard_Detection_Unit (
     input clk, rst,
     input two_src, exe_mem_read_en,
     input [3:0] src1, src2, exe_dest,

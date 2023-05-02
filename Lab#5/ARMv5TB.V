@@ -1,7 +1,7 @@
-module ARMv4TB ();
+module ARMv5TB ();
     reg clk = 0, rst = 0;
 
-ARMv4 arm(clk, rst);
+ARMv5 arm(clk, rst);
 
     always #10 clk = ~clk;
     initial begin

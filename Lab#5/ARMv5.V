@@ -195,7 +195,7 @@ MEM_Stage_Reg mem_stage_reg(
 // );
 Hazard_Detection_Unit hazard_detection_unit(
     clk, rst,
-    two_src, wb_en_exe, mem_read_en_exe,
+    two_src, mem_read_en_exe,
     hazard_src1, hazard_src2, dest_exe,
     hazard
 );
@@ -212,9 +212,9 @@ WB_Stage wb_stage(
 
 Forwarding_Unit forwarding_unit(
     clk, rst, 
-    wb_en_mem_reg, wb_en_wb,
+    wb_en_exe_reg, wb_en_wb,
     src1, src2, 
-    dest_mem_reg, dest, 
+    dest_mem, dest, 
     sel_src1, sel_src2
 );
 

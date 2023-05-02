@@ -9,17 +9,18 @@ module Forwarding_Unit (
     always @(src1, src2, mem_wb_en, wb_wb_en, mem_dest, wb_dest) begin // this is right
         sel_src1 = 2'b00;
         sel_src2 = 2'b00;
+        
+        if (wb_wb_en) begin // I added a else!
+            if (src1 == wb_dest)
+                sel_src1 = 2'b10;
+            if (src2 == wb_dest)
+                sel_src2 = 2'b10;
+        end
         if (mem_wb_en) begin
             if (src1 == mem_dest)
                 sel_src1 = 2'b01;
             if (src2 == mem_dest)
                 sel_src2 = 2'b01;
-        end
-        else if (wb_wb_en) begin // I added a else!
-            if (src1 == wb_dest)
-                sel_src1 = 2'b10;
-            if (src2 == wb_dest)
-                sel_src2 = 2'b10;
         end
     end
 
