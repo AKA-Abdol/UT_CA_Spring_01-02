@@ -135,6 +135,8 @@ EXE_Stage exe_stage(
     signed_imm_24, // defined
     status_register_id,
     dest_exe,
+    sel_src1, sel_src2,
+    alu_res, wb_value,
 
     mem_read_en_exe, mem_write_en_exe, wb_en_exe, br_taken,
     alu_res_exe, br_addr_exe, val_Rm_exe,
@@ -176,6 +178,7 @@ MEM_Stage_Reg mem_stage_reg(
     dest_mem_reg
 );
 
+// OLD
 // module Hazard_Detection_Unit (
 //     input clk, rst,
 //     input two_src, exe_wb_en, mem_wb_en,
@@ -183,10 +186,17 @@ MEM_Stage_Reg mem_stage_reg(
 //     output reg hazard
 // );
 
+// NEW
+// module Hazard_Detection_Unit2 (
+//     input clk, rst,
+//     input two_src, exe_mem_read_en,
+//     input [3:0] src1, src2, exe_dest,
+//     output reg hazard
+// );
 Hazard_Detection_Unit hazard_detection_unit(
     clk, rst,
-    two_src, wb_en_exe, wb_en_exe_reg,
-    hazard_src1, hazard_src2, dest_exe, dest_mem,
+    two_src, wb_en_exe, mem_read_en_exe,
+    hazard_src1, hazard_src2, dest_exe,
     hazard
 );
 
