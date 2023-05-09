@@ -22,20 +22,22 @@ module EXE_Stage (
     wire [31:0] val_2;
     wire [31:0] selected_val_Rm, selected_val_Rn;
 
-    Mux3to1 #(32)
+    Mux4to1 #(32)
         mux_val_Rn(
             .input_0(val_Rn),
             .input_1(alu_res_mem),
             .input_2(wb_value),
+            .input_3(),
             .sel(sel_src1),
             .selected_input(selected_val_Rn)
         );
 
-    Mux3to1 #(32)
+    Mux4to1 #(32)
         mux_val_Rm(
             .input_0(val_Rm_in),
             .input_1(alu_res_mem),
             .input_2(wb_value),
+            .input_3(),
             .sel(sel_src2),
             .selected_input(selected_val_Rm)
         );
