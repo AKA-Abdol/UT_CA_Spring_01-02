@@ -48,13 +48,9 @@ module SRAM_Controller (
 
     assign SRAM_DQ = write_en ? (counter == 3'b001) ? write_data[15:0] :
                                 (counter == 3'b010) ? write_data[31:16] : 16'bz : 16'bz;
-    
-    always @(posedge rst) begin
-        SRAM_WE_N <= 1'b1;
-        read_data <= 32'bz;
-    end
 
     always @(counter) begin
+        SRAM_WE_N = 1'b1;
         if (write_en) begin
             case (counter)
                 3'b001 : begin
