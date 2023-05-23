@@ -51,7 +51,7 @@ module SRAM_Controller (
     
     always @(posedge rst) begin
         SRAM_WE_N <= 1'b1;
-        
+        read_data <= 32'bz;
     end
 
     always @(counter) begin

@@ -302,5 +302,15 @@ input          TD_CLK27;            //	TV Decoder 27MHz CLK
 inout	[35:0]	GPIO_0;					//	GPIO Connection 0
 inout	[35:0]	GPIO_1;					//	GPIO Connection 1
 
-ARMv5 armv5(CLOCK_50, SW[2]);
+ARMv6 armv6(
+	CLOCK_50, SW[2],
+	SRAM_DQ,
+	SRAM_ADDR,
+	SRAM_UB_N,
+	SRAM_LB_N,
+	SRAM_WE_N,
+	SRAM_CE_N,
+	SRAM_OE_N
+);
+
 endmodule

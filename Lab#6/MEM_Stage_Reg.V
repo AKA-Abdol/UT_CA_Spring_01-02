@@ -2,6 +2,7 @@ module MEM_Stage_Reg(
     input clk, rst, wb_en_in, mem_read_en_in,
     input[31:0] alu_result_in, mem_read_value_in,
     input [3:0] dest_in,
+    input freeze,
     output reg wb_en, mem_read_en,
     output reg[31:0] alu_result, mem_read_value,
     output reg[3:0] dest
@@ -16,11 +17,20 @@ always @(posedge clk, posedge rst) begin
         dest <= 4'b0;
     end
     else begin
-        wb_en <= wb_en_in;
-        mem_read_en <= mem_read_en_in;
-        alu_result <= alu_result_in;
-        mem_read_value <= mem_read_value_in;
-        dest <= dest_in;
+        if (freeze) begin
+            wb_en <= wb_en;
+            mem_read_en <= mem_read_en;
+            alu_result <= alu_result;
+            mem_read_value <= mem_read_value;
+            dest <= dest;
+        end
+        else begin
+            wb_en <= wb_en_in;
+            mem_read_en <= mem_read_en_in;
+            alu_result <= alu_result_in;
+            mem_read_value <= mem_read_value_in;
+            dest <= dest_in;
+        end
     end
 end
 

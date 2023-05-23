@@ -11,6 +11,7 @@ module ID_Stage_Reg(
     input imm_in,
     input[23:0] signed_imm_24_in,
     input[3:0] src1_in, src2_in,
+    input freeze,
 
     output reg wb_en, mem_read_en, mem_write_en, B, S,
     output reg[3:0] exe_cmd,
@@ -52,23 +53,42 @@ always @(posedge clk, posedge rst) begin
         src2 <= 4'b0;
     end
     else begin
-        wb_en <= wb_en_in;
-        mem_read_en <= mem_read_en_in;
-        mem_write_en <= mem_write_en_in;
-        B <= B_in;
-        S <= S_in;
-        exe_cmd <= exe_cmd_in;
-        PC <= PC_in;
-        val_Rn <= val_Rn_in;
-        val_Rm <= val_Rm_in;
-        shift_operand <= shift_operand_in;
-        dest <= dest_in;
-        status_register_id <= status_register;
-        imm <= imm_in;
-        signed_imm_24 <= signed_imm_24_in;
-        src1 <= src1_in;
-        src2 <= src2_in;
-
+        if (freeze) begin
+            wb_en <= wb_en;
+            mem_read_en <= mem_read_en;
+            mem_write_en <= mem_write_en;
+            B <= B;
+            S <= S;
+            exe_cmd <= exe_cmd;
+            PC <= PC;
+            val_Rn <= val_Rn;
+            val_Rm <= val_Rm;
+            shift_operand <= shift_operand;
+            dest <= dest;
+            status_register_id <= status_register_id;
+            imm <= imm;
+            signed_imm_24 <= signed_imm_24;
+            src1 <= src1;
+            src2 <= src2;
+        end
+        else begin
+            wb_en <= wb_en_in;
+            mem_read_en <= mem_read_en_in;
+            mem_write_en <= mem_write_en_in;
+            B <= B_in;
+            S <= S_in;
+            exe_cmd <= exe_cmd_in;
+            PC <= PC_in;
+            val_Rn <= val_Rn_in;
+            val_Rm <= val_Rm_in;
+            shift_operand <= shift_operand_in;
+            dest <= dest_in;
+            status_register_id <= status_register;
+            imm <= imm_in;
+            signed_imm_24 <= signed_imm_24_in;
+            src1 <= src1_in;
+            src2 <= src2_in;
+        end
     end
 end
 
