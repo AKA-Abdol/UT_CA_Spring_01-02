@@ -7,7 +7,7 @@ module SRAM (
     reg[15:0] memory[0:255];
     integer i;
 
-    assign #7 SRAM_DQ = SRAM_WE_N ? memory[SRAM_ADDR] : 16'bz;
+    assign #12 SRAM_DQ = SRAM_WE_N ? memory[SRAM_ADDR] : 16'bz;
 
     always @(posedge clk, posedge rst) begin
         if (rst) begin

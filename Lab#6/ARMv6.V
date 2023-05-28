@@ -60,12 +60,13 @@ wire ready;
 
 
 IF_Stage if_stage(
-    clk, rst, hazard | ~ready,
+    clk, rst, (hazard | ~ready),
     br_taken, br_addr_exe, PC_IF_In, Instruction_IF_In
 );
 
 IF_Stage_Reg if_stage_reg(
-    clk, rst, hazard | ~ready, br_taken,
+    clk, rst, (hazard | ~ready),
+    br_taken,
     Instruction_IF_In, PC_IF_In, PC_IF, Instruction_IF
 );
 
@@ -164,7 +165,7 @@ EXE_Stage_Reg exe_stage_reg(
     wb_en_exe, mem_read_en_exe, mem_write_en_exe,
     alu_res_exe, br_addr_exe, val_Rm_exe,
     dest_exe_reg,
-    ~ready,
+    (~ready),
 
     wb_en_exe_reg, mem_read_en_exe_reg, mem_write_en_exe_reg,
     alu_res, br_addr, val_Rm_exe_reg,
@@ -191,50 +192,20 @@ SRAM_Controller sram_controller (
     SRAM_LB_N,
     SRAM_WE_N,
     SRAM_CE_N,
-    SRAM_OE_N,
+    SRAM_OE_N
 );
-
-// module SRAM_Controller (
-//     input clk, rst,
-//     input write_en, read_en,
-//     input [31:0] address, write_data,
-//     output reg [31:0] read_data,
-//     output ready,
-//     inout [15:0] SRAM_DQ,
-//     output reg [17:0] SRAM_ADDR,
-//     output SRAM_UB_N,
-//     output SRAM_LB_N,
-//     output reg SRAM_WE_N,
-//     output SRAM_CE_N,
-//     output SRAM_OE_N
-// );
 
 MEM_Stage_Reg mem_stage_reg(
     clk, rst, wb_en_exe_reg, mem_read_en_exe_reg, 
     alu_res, mem_result, 
     dest_mem, 
-    ~ready,
+    (~ready),
 
     wb_en_mem_reg, mem_read_en_mem_reg,
     alu_result_mem_reg, mem_read_value_mem_reg,
     dest_mem_reg
 );
 
-// OLD
-// module Hazard_Detection_Unit (
-//     input clk, rst,
-//     input two_src, exe_wb_en, mem_wb_en,
-//     input [3:0] src1, src2, exe_dest, mem_dest,
-//     output reg hazard
-// );
-
-// NEW
-// module Hazard_Detection_Unit2 (
-//     input clk, rst,
-//     input two_src, exe_mem_read_en,
-//     input [3:0] src1, src2, exe_dest,
-//     output reg hazard
-// );
 Hazard_Detection_Unit hazard_detection_unit(
     clk, rst,
     two_src, mem_read_en_exe,

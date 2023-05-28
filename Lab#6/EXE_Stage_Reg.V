@@ -21,20 +21,20 @@ always @(posedge clk, posedge rst) begin
         end
         else begin
             if (freeze) begin
-                mem_read_en <= mem_read_en_in;
-                mem_write_en <= mem_write_en_in;
-                wb_en <= wb_en_in;
-                alu_res <= alu_res_in;
-                val_Rm <= val_Rm_in;
-                dest <= dest_in; // this should be defined!
-            end
-            else begin
                 mem_read_en <= mem_read_en;
                 mem_write_en <= mem_write_en;
                 wb_en <= wb_en;
                 alu_res <= alu_res;
                 val_Rm <= val_Rm;
                 dest <= dest;
+            end
+            else begin
+                mem_read_en <= mem_read_en_in;
+                mem_write_en <= mem_write_en_in;
+                wb_en <= wb_en_in;
+                alu_res <= alu_res_in;
+                val_Rm <= val_Rm_in;
+                dest <= dest_in; // this should be defined!
             end
         end
     end
