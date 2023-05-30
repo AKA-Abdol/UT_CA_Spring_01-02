@@ -1,15 +1,15 @@
-<session jtag_chain="USB-Blaster [USB-0]" jtag_device="@1: EP2C35 (0x020B40DD)" sof_file="output_files/ARM.sof">
+<session jtag_chain="Disabled" jtag_device="" sof_file="output_files/ARM.sof">
   <display_tree gui_logging_enabled="0">
-    <display_branch instance="auto_signaltap_0" log="USE_GLOBAL_TEMP" signal_set="USE_GLOBAL_TEMP" trigger="USE_GLOBAL_TEMP"/>
+    <display_branch instance="auto_signaltap_0" signal_set="USE_GLOBAL_TEMP" trigger="USE_GLOBAL_TEMP"/>
   </display_tree>
   <instance entity_name="sld_signaltap" is_auto_node="yes" is_expanded="true" name="auto_signaltap_0" source_file="sld_signaltap.vhd">
     <node_ip_info instance_id="0" mfg_id="110" node_id="0" version="6"/>
     <position_info>
       <single attribute="active tab" value="1"/>
     </position_info>
-    <signal_set global_temp="1" name="signal_set: 2023/05/28 13:33:10  #0">
+    <signal_set global_temp="1" name="signal_set: 2023/05/29 16:34:29  #0">
       <clock name="CLOCK_50" polarity="posedge" tap_mode="classic"/>
-      <config ram_type="M4K" reserved_data_nodes="0" reserved_storage_qualifier_nodes="0" reserved_trigger_nodes="0" sample_depth="4096" trigger_in_enable="no" trigger_out_enable="no"/>
+      <config ram_type="M4K" reserved_data_nodes="0" reserved_storage_qualifier_nodes="0" reserved_trigger_nodes="0" sample_depth="2048" trigger_in_enable="no" trigger_out_enable="no"/>
       <top_entity/>
       <signal_vec>
         <trigger_input_vec>
@@ -1025,7 +1025,7 @@
         <trigger_in_editor/>
         <trigger_out_editor/>
       </presentation>
-      <trigger attribute_mem_mode="false" gap_record="true" global_temp="1" name="trigger: 2023/05/28 13:33:10  #1" position="pre" power_up_trigger_mode="false" record_data_gap="true" segment_size="1024" storage_mode="conditional" storage_qualifier_disabled="no" storage_qualifier_port_is_pin="false" storage_qualifier_port_name="auto_stp_external_storage_qualifier" storage_qualifier_port_tap_mode="classic" trigger_type="circular">
+      <trigger attribute_mem_mode="false" gap_record="true" global_temp="1" name="trigger: 2023/05/29 16:34:29  #1" position="pre" power_up_trigger_mode="false" record_data_gap="true" segment_size="2048" storage_mode="conditional" storage_qualifier_disabled="no" storage_qualifier_port_is_pin="true" storage_qualifier_port_name="auto_stp_external_storage_qualifier" storage_qualifier_port_tap_mode="classic" trigger_type="circular">
         <power_up_trigger position="pre" storage_qualifier_disabled="no"/>
         <events use_custom_flow_control="no">
           <level enabled="yes" name="condition1" type="basic">'SW[2]' == falling edge
@@ -1054,10 +1054,6 @@
             <op_node/>
           </storage_qualifier_level>
         </storage_qualifier_events>
-        <log>
-          <data global_temp="1" name="log: 2023/05/28 13:33:10  #2"/>
-          <extradata/>
-        </log>
       </trigger>
     </signal_set>
   </instance>
